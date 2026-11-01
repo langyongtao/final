@@ -3,9 +3,8 @@ from tkinter import ttk, messagebox
 from datetime import datetime
 
 
-# ==================== 1. 数据模型 ====================
+# ==================== 1. Data Model ====================
 class Item:
-    """商品数据模型"""
 
     def __init__(self, name, price, quantity=1, category="General"):
         self.name = name
@@ -18,7 +17,7 @@ class Item:
         return self.price * self.quantity
 
 
-# ==================== 2. GUI 主程序 ====================
+# ==================== 2. GUI Main Program ====================
 class POSApp:
     TAX_RATE = 0.10  # 10% GST
 
@@ -28,7 +27,7 @@ class POSApp:
         self.root.geometry("1100x680")
         self.root.minsize(900, 600)
 
-        # 预设英文商品列表 (配合澳洲老师的餐饮/咖啡场景)
+        # Pre-set English Product List (for food & beverage/café scenarios, as per the Australian instructor)
         self.products = [
             {"name": "☕ Flat White", "price": 4.50, "category": "Beverages"},
             {"name": "🧋 Iced Milk Tea", "price": 5.50, "category": "Beverages"},
@@ -40,16 +39,15 @@ class POSApp:
             {"name": "🍦 Vanilla Sundae", "price": 3.00, "category": "Desserts"},
         ]
 
-        # 当前购物车列表: {商品名: Item对象}
+        # Current shopping cart list: {product name: Item object}
         self.cart = {}
 
-        # 配置 UI 样式
+        # Configure UI Styles
         self.setup_styles()
-        # 构建界面布局
+        # Building the Interface Layout
         self.create_widgets()
 
     def setup_styles(self):
-        """配置整体视觉主题风格"""
         self.style = ttk.Style()
         self.style.theme_use('clam')
 
@@ -66,7 +64,6 @@ class POSApp:
         self.style.map('Danger.TButton', background=[('active', '#DC2626')])
 
     def create_widgets(self):
-        """主窗口组件布局"""
         # 顶部标题栏
         header_frame = tk.Frame(self.root, bg="#1E293B", height=60)
         header_frame.pack(fill=tk.X, side=tk.TOP)
@@ -81,15 +78,13 @@ class POSApp:
         )
         title_label.pack(side=tk.LEFT, padx=20, pady=15)
 
-        # 主内容区域（双面板结构）
         main_container = ttk.Frame(self.root)
         main_container.pack(fill=tk.BOTH, expand=True, padx=15, pady=15)
 
-        # ==================== 左侧：商品挑选区 (Store Center) ====================
+        # ====================Store Center====================
         left_frame = ttk.Frame(main_container)
         left_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=(0, 10))
 
-        # 1. 手动添加商品条（输入框区域）
         custom_input_frame = tk.LabelLabelFrame if hasattr(tk, 'LabelLabelFrame') else tk.LabelFrame
         custom_input_frame = tk.LabelFrame(left_frame, text=" ➕ Manual Entry / Quick Add ",
                                            font=("Segoe UI", 10, "bold"), bg="#FFFFFF", fg="#374151", padx=10, pady=10)
@@ -112,7 +107,6 @@ class POSApp:
                              command=self.add_custom_item)
         add_btn.grid(row=0, column=6, padx=10, pady=5)
 
-        # 2. 商品点餐网格区 (快捷点击卡片)
         product_section = tk.LabelFrame(left_frame, text=" 🏪 Quick Select Menu ", font=("Segoe UI", 10, "bold"),
                                         bg="#FFFFFF", fg="#374151", padx=10, pady=10)
         product_section.pack(fill=tk.BOTH, expand=True)
@@ -149,7 +143,6 @@ class POSApp:
         for c in range(cols):
             grid_frame.columnconfigure(c, weight=1)
 
-        # ==================== 右侧：购物车与结账 (Cart & Checkout) ====================
         right_frame = tk.LabelFrame(main_container, text=" 🛒 Order Details & Checkout ", font=("Segoe UI", 10, "bold"),
                                     bg="#FFFFFF", fg="#374151", padx=10, pady=10)
         right_frame.pack(side=tk.RIGHT, fill=tk.BOTH, expand=False)
@@ -185,7 +178,6 @@ class POSApp:
                                   fg="#DC2626", bg="#F8FAFC", anchor="w")
         self.lbl_total.pack(fill=tk.X, pady=4)
 
-        # 底部控制按钮组
         btn_frame = tk.Frame(right_frame, bg="#FFFFFF")
         btn_frame.pack(fill=tk.X)
 
@@ -195,7 +187,7 @@ class POSApp:
         btn_checkout = ttk.Button(btn_frame, text="Checkout & Print", style='Success.TButton', command=self.checkout)
         btn_checkout.pack(side=tk.RIGHT, fill=tk.X, expand=True, padx=(5, 0))
 
-    # ==================== 3. 业务逻辑操作 ====================
+    # ==================== 3. Business Logic Operations ====================
     def quick_add_product(self, prod):
         name = prod["name"]
         price = prod["price"]
@@ -276,7 +268,7 @@ class POSApp:
         total = subtotal_sum + tax
         now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-        # 生成英文格式的小票
+        # receipt
         receipt_text = f"{'=' * 42}\n"
         receipt_text += f"{'Simple POS Electronic Receipt':^42}\n"
         receipt_text += f" Time: {now_str}\n"
@@ -314,7 +306,7 @@ class POSApp:
         close_btn.pack(fill=tk.X, padx=15, pady=10)
 
 
-# ==================== 4. 程序主入口 ====================
+# ==================== 4. Main Program Entry Point ====================
 if __name__ == "__main__":
     root = tk.Tk()
     app = POSApp(root)
