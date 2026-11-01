@@ -53,7 +53,7 @@ class POSApp:
 
         self.style.configure('TFrame', background='#F3F4F6')
 
-        # 按钮样式
+        # button style
         self.style.configure('Action.TButton', font=('Segoe UI', 10, 'bold'), background='#2563EB', foreground='white')
         self.style.map('Action.TButton', background=[('active', '#1D4ED8')])
 
@@ -64,7 +64,7 @@ class POSApp:
         self.style.map('Danger.TButton', background=[('active', '#DC2626')])
 
     def create_widgets(self):
-        # 顶部标题栏
+        # top title
         header_frame = tk.Frame(self.root, bg="#1E293B", height=60)
         header_frame.pack(fill=tk.X, side=tk.TOP)
         header_frame.pack_propagate(False)
@@ -163,7 +163,7 @@ class POSApp:
 
         self.tree.pack(fill=tk.BOTH, expand=True, pady=(0, 10))
 
-        # 金额汇总区域
+        # sum amount
         summary_frame = tk.Frame(right_frame, bg="#F8FAFC", padx=15, pady=10)
         summary_frame.pack(fill=tk.X, pady=(0, 10))
 
